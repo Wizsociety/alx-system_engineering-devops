@@ -1,6 +1,6 @@
-# Fixing Apache returning a 500 error
+# Fixing Apach var/www/html/wp-content/object-cache.php" file not available
 
-exec { 'fix error':
-  provider => 'shell',
+exec { 'fix-wordpress':
   command  => 'sed -i "s/phpp/php/g" /var/www/html/wp-settings.php'
+  path	   => '/usr/local/bin/:bin/'
 }
