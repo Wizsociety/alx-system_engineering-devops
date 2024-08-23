@@ -1,1 +1,1 @@
-the script does
+#SHELL BASICS
