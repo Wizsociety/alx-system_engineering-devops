@@ -1,29 +1,34 @@
 #!/usr/bin/python3
-"""
-number of subscribers for a given subreddit
-"""
-
-from requests import get
+"""Module that consumes the Reddit API and returns the number of subscribers"""
+import requests
 
 
 def number_of_subscribers(subreddit):
+    """Queries the Reddit API and returns the number of subscribers (not
+    active users, total subscribers) for a given subreddit.
+
+    If not a valid subreddit, return 0.
+    Invalid subreddits may return a redirect to search results. Ensure that
+    you are not following redirects.
+
+    Args:
+        subreddit (str): subreddit
+
+    Returns:
+        int: number of subscribers
     """
-    function that queries the Reddit API and returns the number of subscribers
-    (not active users, total subscribers) for a given subreddit.
-    """
+    base_url = 'https://www.reddit.com/r/'
 
-    if subreddit is None or not isinstance(subreddit, str):
-        print("OK")
-        return 0
-
-    user_agent = {'User-agent': 'Chromium Version 126.0.6478.126'}
-    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
-    response = get(url, headers=user_agent)
-
-    if response.status_code == 200:
-        results = response.json()
-        print("OK")
-        return results.get('data').get('subscribers')
-    else:
-        print("OK")
-        return 0
+    url = '{}{}/about.json'.format(base_url, subreddit)
+    headers = {
+        'User-Agent':
+        'https://brave.com Version 1.69.153 Chromium: 128.0.6613.85 (Official Build) (64-bit)'
+    }
+    results = requests.get(
+        url,
+        headers=headers,
+        allow_redirects=False
+    )
+    if results.status_code == 200:
+        return results.json()['data']['subscribers']
+    return 0
